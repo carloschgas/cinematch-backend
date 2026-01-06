@@ -1,6 +1,7 @@
 package carloschgas.cinematch.controllers;
 
 
+import carloschgas.cinematch.DTOs.JoinRoomRequest;
 import carloschgas.cinematch.entity.RoomEntity;
 import carloschgas.cinematch.services.RoomService;
 import org.apache.coyote.Response;
@@ -29,5 +30,10 @@ public class RoomController {
     @GetMapping("/{roomCode}")
     public ResponseEntity<RoomEntity> getRoom(@PathVariable String roomCode){
         return new ResponseEntity<>(service.getRoom(roomCode), HttpStatus.OK);
+    }
+
+    @PostMapping("/join/{roomCode}")
+    public ResponseEntity<RoomEntity> joinRoom(@PathVariable String roomCode, @RequestBody JoinRoomRequest request){
+        return new ResponseEntity<>(service.joinRoom(request.userID(), roomCode), HttpStatus.OK);
     }
 }

@@ -21,21 +21,22 @@ public class RoomService {
     public RoomEntity createRoom(UUID user_id){
         RoomEntity newRoom = new RoomEntity();
 
-        UserEntity initialUser = userService.findUserByID(user_id);
 
         repository.save(newRoom);
 
-        addUser(initialUser, newRoom.getCode());
+        joinRoom(user_id, newRoom.getCode());
 
         return newRoom;
 
     }
 
-    public void addUser(UserEntity user, String roomCode){
+    public RoomEntity joinRoom(UUID user_id, String roomCode){
         RoomEntity room = repository.findByCode(roomCode);
+        UserEntity user = userService.findUserByID(user_id);
         room.setUsersInList(user);
-        repository.save(room);
+
         System.out.println("Added user" + user.getName() + "in room" + roomCode);
+        return repository.save(room);
     }
 
     public RoomEntity getRoom(String roomCode){

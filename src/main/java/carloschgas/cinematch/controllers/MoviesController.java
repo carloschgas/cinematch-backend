@@ -2,15 +2,13 @@ package carloschgas.cinematch.controllers;
 
 import carloschgas.cinematch.DTOs.MoviesDTO;
 import carloschgas.cinematch.services.MoviesService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping ("/movies")
+@CrossOrigin(origins = "http://localhost:5173")
 public class MoviesController {
 
     private final MoviesService moviesService;
