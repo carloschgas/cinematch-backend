@@ -3,6 +3,7 @@ package carloschgas.cinematch.controllers;
 
 import carloschgas.cinematch.DTOs.JoinRoomRequest;
 import carloschgas.cinematch.entity.RoomEntity;
+import carloschgas.cinematch.entity.UserEntity;
 import carloschgas.cinematch.services.RoomService;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -36,4 +38,5 @@ public class RoomController {
     public ResponseEntity<RoomEntity> joinRoom(@PathVariable String roomCode, @RequestBody JoinRoomRequest request){
         return new ResponseEntity<>(service.joinRoom(request.userID(), roomCode), HttpStatus.OK);
     }
+
 }

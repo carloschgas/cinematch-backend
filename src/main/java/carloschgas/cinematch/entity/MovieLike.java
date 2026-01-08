@@ -11,8 +11,7 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 
@@ -20,15 +19,23 @@ import java.util.UUID;
 public class MovieLike {
 @Id
 @GeneratedValue
-private UUID id;
+    private UUID id;
 
-private Long movieId; // id do TMDB
+    private Long movieId; // id do TMDB
 
-@ManyToOne
-private UserEntity user;
+    @ManyToOne
+    private UserEntity user;
 
-@ManyToOne
-private RoomEntity room;
+    @ManyToOne
+    private RoomEntity room;
 
-private boolean liked; // true = like, false = dislike
+    private boolean liked = true; // true = like, false = dislike
+
+    public MovieLike(long l, UserEntity userWhoLiked, RoomEntity room) {
+        this.movieId = l;
+        this.user = userWhoLiked;
+        this.room = room;
+    }
+
+    public MovieLike(){}
 }

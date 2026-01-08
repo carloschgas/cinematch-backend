@@ -5,6 +5,8 @@ import carloschgas.cinematch.entity.UserEntity;
 import carloschgas.cinematch.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -30,6 +32,10 @@ public class RoomService {
 
     }
 
+    public RoomEntity findByCode(String roomCode){
+        return repository.findByCode(roomCode);
+    }
+
     public RoomEntity joinRoom(UUID user_id, String roomCode){
         RoomEntity room = repository.findByCode(roomCode);
         UserEntity user = userService.findUserByID(user_id);
@@ -41,6 +47,18 @@ public class RoomService {
 
     public RoomEntity getRoom(String roomCode){
         return repository.findByCode(roomCode);
+    }
+
+    public Set<UUID> getUsersFromRoom(String roomCode){
+        RoomEntity room = findByCode(roomCode);
+
+        Set<UUID> setOfUsersID = new HashSet<>();
+
+        for (UserEntity u: room.getUsers()){
+            setOfUsersID.add(u.getId());
+        }
+
+        return setOfUsersID;
     }
 
 }

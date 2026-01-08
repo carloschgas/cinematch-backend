@@ -4,14 +4,16 @@ package carloschgas.cinematch.controllers;
 import carloschgas.cinematch.DTOs.LikeRequest;
 import carloschgas.cinematch.entity.MovieLike;
 import carloschgas.cinematch.services.LikeService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/room/{roomCode}/like")
+@RequestMapping("/likes")
 @CrossOrigin(origins = "http://localhost:5173")
 public class LikeController {
 
@@ -22,7 +24,21 @@ public class LikeController {
     }
 
     @PostMapping
-    public ResponseEntity<MovieLike> likeMovie(@RequestParam UUID roomCode, @RequestBody LikeRequest request){
-        return new ResponseEntity<>(likeService.like(), HttpStatus.OK)
+    public ResponseEntity<Boolean> like(@RequestBody LikeRequest request){
+        boolean isMatch = likeService.likeMovie(request);
+        return ResponseEntity.ok(isMatch);
     }
+
+    @GetMapping("/matches/{roomCode}")
+    public ResponseEntity<List<Long>> getMatches(@PathVariable String roomCode) {
+
+        List<Long> matches = likeService.getMatchedMovies(roomCode);
+
+        return ResponseEntity.ok(matches);
+    }
+
+
+
+
+
 }
