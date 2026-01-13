@@ -30,10 +30,24 @@ public class RoomEntity {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Column(name = "max_users", nullable = false)
+    Integer maxUsers;
+
+
+
+
     @ManyToMany
     @JoinTable(name = "room_users", joinColumns = @JoinColumn(name = "room_id"), inverseJoinColumns = @JoinColumn(name ="user_id"))
 
     private Set<UserEntity> users = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(
+            name = "room_providers",
+            joinColumns = @JoinColumn(name = "room_id")
+    )
+    @Column(name = "provider_id", nullable = false)
+    private Set<Long> providersId = new HashSet<>();
 
     public RoomEntity (){
         this.code = UUID.randomUUID().toString().substring(0,5);
