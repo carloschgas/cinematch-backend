@@ -2,6 +2,7 @@ package carloschgas.cinematch.controllers;
 
 
 import carloschgas.cinematch.DTOs.LikeRequest;
+import carloschgas.cinematch.DTOs.MoviesDTO;
 import carloschgas.cinematch.entity.MovieLike;
 import carloschgas.cinematch.services.LikeService;
 import org.apache.coyote.Response;
@@ -30,9 +31,15 @@ public class LikeController {
     }
 
     @GetMapping("/matches/{roomCode}")
-    public ResponseEntity<List<Long>> getMatches(@PathVariable String roomCode) {
+    public ResponseEntity<List<MoviesDTO>> getMatches(
+            @PathVariable String roomCode
+    ) {
+        List<MoviesDTO> matches =
+                likeService.getMatchedMoviesDetails(roomCode);
 
-        List<Long> matches = likeService.getMatchedMovies(roomCode);
+        if (matches.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
 
         return ResponseEntity.ok(matches);
     }
