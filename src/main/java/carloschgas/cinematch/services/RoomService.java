@@ -20,9 +20,10 @@ public class RoomService {
         this.userService = userService;
     }
 
-    public RoomEntity createRoom(UUID user_id){
+    public RoomEntity createRoom(UUID user_id, Set<Long> providersId, Integer maxUsers){
         RoomEntity newRoom = new RoomEntity();
-
+        newRoom.setMaxUsers(maxUsers);
+        newRoom.getProvidersId().addAll(providersId);
 
         repository.save(newRoom);
 
@@ -45,20 +46,14 @@ public class RoomService {
         return repository.save(room);
     }
 
-    public RoomEntity getRoom(String roomCode){
-        return repository.findByCode(roomCode);
-    }
-
-    public Set<UUID> getUsersFromRoom(String roomCode){
+    public Set<UserEntity> getUsers(String roomCode){
         RoomEntity room = findByCode(roomCode);
 
-        Set<UUID> setOfUsersID = new HashSet<>();
+        return room.getUsers();
+    }
 
-        for (UserEntity u: room.getUsers()){
-            setOfUsersID.add(u.getId());
-        }
-
-        return setOfUsersID;
+    public RoomEntity getRoom(String roomCode){
+        return repository.findByCode(roomCode);
     }
 
 }
