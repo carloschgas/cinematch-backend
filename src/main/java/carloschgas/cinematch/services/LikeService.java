@@ -1,6 +1,7 @@
 package carloschgas.cinematch.services;
 
 import carloschgas.cinematch.DTOs.LikeRequest;
+import carloschgas.cinematch.DTOs.MoviesDTO;
 import carloschgas.cinematch.entity.MovieLike;
 import carloschgas.cinematch.entity.RoomEntity;
 import carloschgas.cinematch.entity.UserEntity;
@@ -16,11 +17,14 @@ public class LikeService {
     private final LikeRepo likeRepo;
     private final UserService userService;
     private final RoomService roomService;
+    private final MoviesService moviesService;
 
-    public LikeService(LikeRepo likeRepo, UserService userService, RoomService roomService){
+    public LikeService(LikeRepo likeRepo, UserService userService, RoomService roomService, MoviesService moviesService){
         this.likeRepo = likeRepo;
         this.userService = userService;
         this.roomService = roomService;
+        this.moviesService = moviesService;
+
     }
 
     public boolean likeMovie(LikeRequest request){
@@ -85,5 +89,19 @@ public class LikeService {
     }
 
 
+    public List<MoviesDTO> getMatchedMoviesDetails(String roomCode) {
 
+        List<Long> matchedIds = getMatchedMovies(roomCode);
+        List<MoviesDTO> movies = new ArrayList<>();
+
+        for (Long movieId : matchedIds) {
+            MoviesDTO movie = moviesService.getMovieByID(movieId);
+            movies.add(movie);
+        }
+
+        return movies;
+    }
 }
+
+
+
