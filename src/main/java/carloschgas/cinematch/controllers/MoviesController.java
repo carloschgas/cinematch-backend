@@ -17,8 +17,12 @@ public class MoviesController {
         this.moviesService = moviesService;
     }
 
-    @GetMapping("/popular")
-    public List<MoviesDTO> searchMovies() {
-        return moviesService.searchMovies();
+    @GetMapping("/{roomCode}")
+    public List<MoviesDTO> getMovies(@PathVariable String roomCode){
+        return moviesService.getMovies(roomCode);
     }
+
+
+
+
 }
