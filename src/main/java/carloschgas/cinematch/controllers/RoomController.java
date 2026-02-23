@@ -1,6 +1,7 @@
 package carloschgas.cinematch.controllers;
 
 
+import carloschgas.cinematch.DTOs.CreateRoomRequest;
 import carloschgas.cinematch.DTOs.JoinRoomRequest;
 import carloschgas.cinematch.entity.RoomEntity;
 import carloschgas.cinematch.entity.UserEntity;
@@ -25,8 +26,16 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomEntity> createRoom(@RequestParam UUID user_id){
-        return new ResponseEntity<>(service.createRoom(user_id), HttpStatus.CREATED);
+    public ResponseEntity<RoomEntity> createRoom(@RequestBody CreateRoomRequest request) {
+
+        return new ResponseEntity<>(
+                service.createRoom(
+                        request.userId(),
+                        request.providersId(),
+                        request.maxUsers()
+                ),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping("/{roomCode}")
